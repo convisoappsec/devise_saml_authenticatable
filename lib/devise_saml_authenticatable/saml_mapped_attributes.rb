@@ -3,7 +3,6 @@ module SamlAuthenticatable
     def initialize(attributes, attribute_map)
       @attributes = attributes
       @attribute_map = attribute_map
-      @inverted_attribute_map = @attribute_map.invert
     end
 
     def saml_attribute_keys
@@ -15,11 +14,11 @@ module SamlAuthenticatable
     end
 
     def value_by_resource_key(key)
-      value_by_saml_attribute_key(@inverted_attribute_map.fetch(String(key)))
-    end
-
-    def value_by_saml_attribute_key(key)
-      @attributes[String(key)]
+      result = nil
+      @attributes.all.each do |response_attr|
+        result = response_attr[1] if @attribute_map.fetch(response_attr[0])
+      end
+      return result
     end
   end
 end
