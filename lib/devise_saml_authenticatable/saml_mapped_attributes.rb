@@ -16,9 +16,9 @@ module SamlAuthenticatable
     def value_by_resource_key(key)
       result = nil
       @attributes.all.each do |response_attr|
-        result = response_attr[1] if @attribute_map[response_attr[0]]
+        result = response_attr[1] if @attribute_map[response_attr[0]] == key
       end
-      return result
+      result
     end
   end
 end
